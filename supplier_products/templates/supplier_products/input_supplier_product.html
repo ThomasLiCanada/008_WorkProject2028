@@ -1,0 +1,27 @@
+<!--templates/supplier_products/input_supplier_product.html--------------------------------------------------------------------->
+<title>Input Supplier Product</title>
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-5" mx-auto>
+            <P></P>
+            <h5>Input supplier Product Special requirement</h5>
+            <hr>
+            <div class="card card-body">
+                <form method="post" enctype="multipart/form-data">{% csrf_token %}
+
+                    {{supplier_product_form}}
+
+                    <button type="submit" name="supplier_product_form_submit"> Save Supplier_Product</button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
