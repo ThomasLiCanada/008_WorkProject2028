@@ -1,0 +1,27 @@
+<!--templates/receiving_suppliers/input_receiving_supplier.html--------------------------------------------------------------------->
+<title>Input Supplier</title>
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-5" mx-auto>
+            <P></P>
+            <h5>Input supplier keyword</h5>
+            <hr>
+            <div class="card card-body">
+                <form method="post" enctype="multipart/form-data">{% csrf_token %}
+
+                    {{receiving_supplier_form}}
+
+                    <button type="submit" name="receiving_supplier_form_submit"> Save Receiving Supplier</button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
