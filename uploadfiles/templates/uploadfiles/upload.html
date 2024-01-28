@@ -1,0 +1,65 @@
+<title>upload</title>
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <p></p>
+    <br>
+    <h3>Upload files to server</h3>
+    <br>
+
+    <form method="post" enctype="multipart/form-data" id="upload-form">
+        {% csrf_token %}
+        <input type="file" name="document" id="file-input" multiple>
+        <p></p>
+        <div id="file-names" class="container"></div>
+        <br>
+
+        <button type="submit">Upload files</button>
+        <button id="closeButton" style="margin-left: 40px;">Close</button>
+    </form>
+
+    <br>
+<!--    show the link to upload files-->
+    {% if urls %}
+    <h4>Uploaded files:</h4>
+    <ul>
+        {% for url in urls %}
+        <li><a href="{{ url }}">{{ url }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+
+
+
+<!-- JavaScript to close the tab when the button is clicked -->
+<script>
+    document.getElementById('closeButton').addEventListener('click', function() {
+        // Close the current browser tab
+        window.close();
+    });
+</script>
+<!-- JavaScript code to list selected files' name for multiple files only -->
+<script>
+    document.getElementById('file-input').addEventListener('change', function () {
+        var input = this;
+        var output = document.getElementById('file-names');
+
+        // Clear the display
+        output.innerHTML = '';
+
+        // Check if multiple files are selected
+        if (input.files.length > 1) {
+            output.innerHTML += '<span>Selected:</span>';
+            for (var i = 0; i < input.files.length; ++i) {
+                output.innerHTML += '<li>' + input.files[i].name + '</li>';
+            }
+        }
+    });
+</script>
+
+
+{% endblock content %}
