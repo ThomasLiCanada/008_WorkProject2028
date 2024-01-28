@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Project</title>
+    {% include 'snippets/header.html' %}
+</head>
+<body>
+    {% include 'snippets/base_css.html' %}
+    <div class="wrapper">
+        <div class="main">
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </div>
+    <footer>
+        {% include 'snippets/footer.html' %}
+    </footer>
+</body>
+</html>

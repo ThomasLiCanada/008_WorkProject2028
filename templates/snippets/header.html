@@ -1,0 +1,29 @@
+<p></p>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<div id="navbar" class="d-flex flex-column flex-md-row align-items-center pb-3 mb-0 border-bottom">
+    <a href="/" class="d-flex align-items-center link-body-emphasis text-decoration-none">
+        {% if request.user.is_authenticated %}
+        <span class="fs-5">Hello, {{request.user.username}}</span>
+        {% else %}
+        <span class="fs-5">Welcome</span>
+        {% endif %}
+    </a>
+    <a href="/" class="d-flex align-items-center link-body-emphasis text-decoration-none">
+        <span class="fs-5" style="margin-left: 50px;">Home</span>
+    </a>
+
+    <a href="/" class="d-flex align-items-center link-body-emphasis text-decoration-none" style="margin-left: 50px;">
+        <span class="fs-5" >Project</span>
+    </a>
+
+    <a href="https://apps.docusign.com/send/home"
+       class="d-flex align-items-center link-body-emphasis text-decoration-none" target="_blank">
+        <span class="fs-5" style="margin-left: 50px;" >DocuSign</span>
+    </a>
+
+    <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+        <p>insert nav bar here</p>
+    </nav>
+</div>
