@@ -1,0 +1,157 @@
+<!-- send_mail_web.html -->
+<title>Email</title>
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+    <style>
+        /* Styling for the drop zone */
+        #drop-zone {
+            width: 90%;
+            min-height: 100px; /* Define the minimum height of the drop zone */
+            border: 2px dashed #ccc;
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        #file-names {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<div class='container'>
+    <h2>Send email</h2>
+    <form id="upload-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+            {% for field in form %}
+                {{field}}<br>
+            {% endfor %}
+
+        <div id="drop-zone">
+            <p style="font-weight: bold;">Drag and drop files here</p>
+            <div id="file-names"></div>
+        </div>
+        <button type="button" id="clear-files">Clear Dropped Files</button>
+        <button type="button" id="closeButton" style="margin-left: 30px;">Cancel</button>
+        <button type="submit" style="margin-left: 30px;">Send</button>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropZone = document.getElementById('drop-zone');
+            const uploadForm = document.getElementById('upload-form');
+            const fileNamesDisplay = document.getElementById('file-names');
+            const clearFilesButton = document.getElementById('clear-files');
+            clearFilesButton.addEventListener('click', clearAllFiles);
+
+            // Function to clear all dropped files
+            function clearAllFiles() {
+                const fileInput = document.querySelector('input[type="file"]');
+
+                // Reset the file input by setting its value to null
+                fileInput.value = '';
+
+                // Clear the display of file names
+                fileNamesDisplay.innerHTML = '';
+            }
+
+            // Prevent default behavior for drag-and-drop events
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+                document.body.addEventListener(eventName, preventDefaults, false);
+            });
+
+            // Highlight drop zone when a file is dragged over it
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight, false);
+            });
+
+            // Remove highlight when a file is dragged out of the drop zone
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight, false);
+            });
+
+            // Handle dropped files
+            dropZone.addEventListener('drop', handleDrop, false);
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            function highlight() {
+                dropZone.style.backgroundColor = '#f0f0f0';
+            }
+
+            function unhighlight() {
+                dropZone.style.backgroundColor = '';
+            }
+
+
+            function handleFiles(files) {
+                const fileInput = document.querySelector('input[type="file"]');
+                const existingFiles = fileInput.files;
+
+                // Create a new array to hold the combined files
+                const combinedFiles = new DataTransfer();
+
+                // Add existing files to the combined array
+                for (let i = 0; i < existingFiles.length; i++) {
+                    combinedFiles.items.add(existingFiles[i]);
+                }
+
+                // Add new dropped files to the combined array
+                for (let i = 0; i < files.length; i++) {
+                    combinedFiles.items.add(files[i]);
+                }
+
+                // Set the combined files to the file input
+                fileInput.files = combinedFiles.files;
+            }
+
+            function showAllFileNames() {
+                const fileInput = document.querySelector('input[type="file"]');
+                const allFiles = fileInput.files;
+                let allFileNames = '';
+
+                for (let i = 0; i < allFiles.length; i++) {
+                    allFileNames += `<span style="margin-left: 50px;"> ${allFiles[i].name}</span>`;
+                }
+
+                fileNamesDisplay.innerHTML = allFileNames;
+            }
+
+            // Modify the handleDrop function to call showAllFileNames after handling dropped files
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+
+                handleFiles(files);
+                showAllFileNames(); // Display all file names (existing + newly dropped)
+            }
+
+
+            // Optional: You can also submit the form on drop event if needed
+            /*
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadForm.submit();
+            });
+            */
+        });
+    </script>
+       <!-- JavaScript to close the tab when the button is clicked -->
+    <script>
+        document.getElementById('closeButton').addEventListener('click', function() {
+            // Close the current browser tab
+            window.close();
+        });
+    </script>
+</div>
+
+
+{% endblock content %}

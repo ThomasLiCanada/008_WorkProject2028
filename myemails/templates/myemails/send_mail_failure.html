@@ -1,0 +1,19 @@
+<!-- send_mail_failure.html -->
+<title>mail failure</title>
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <p></p>
+    <h2>Email Sending Failed</h2>
+    <p>Sorry, we were unable to send your email due to the following error:</p>
+    <p>{{ error_message }}</p>
+    <p>Please try again later. If the issue persists, contact support.</p>
+    <a href="javascript:closeCurrentTab();">Close</a>
+</div>
+
+<script>
+    function closeCurrentTab() {
+        window.close();
+    }
+</script>
+{% endblock %}

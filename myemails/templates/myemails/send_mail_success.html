@@ -1,0 +1,26 @@
+<!-- success.html -->
+<title>mail</title>
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container text-center mt-5">
+    <p></p><br>
+    <p></p>
+    <h3>Email Sent Successfully!</h3>
+    <!-- Add any success message or redirection here -->
+
+    <!-- Add a button to close the browser tab -->
+    <p></p><br>
+    <p></p>
+    <button class="btn btn-primary" id="closeButton" style="width: 25%;">Close</button>
+
+    <!-- JavaScript to close the tab when the button is clicked -->
+    <script>
+        document.getElementById('closeButton').addEventListener('click', function() {
+            // Close the current browser tab
+            window.close();
+        });
+    </script>
+</div>
+{% endblock content %}
