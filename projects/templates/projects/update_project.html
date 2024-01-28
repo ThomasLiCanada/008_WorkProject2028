@@ -1,0 +1,58 @@
+<!-- projects/templates/projects/update_project.html -->
+
+<title>Project</title>
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="row">
+    <div class="col">
+        <form method="post" enctype="multipart/form-data" id="myForm">{% csrf_token %}
+
+            <!--test card----------------------------------------------------------------------------------------->
+            {% include 'projects/update_project_sub_htmls/card_0_test.html' %}
+            <!--message card-------------------------------------------------------------------------------------->
+            {% include 'projects/update_project_sub_htmls/card_0.html' %}
+            <!-- 1st Card: project_information ------------------------------------------------------------------->
+            {% include 'projects/update_project_sub_htmls/card_1.html' %}
+            <!-- 2nd Card: part_information and project handling-------------------------------------------------->
+            {% include 'projects/update_project_sub_htmls/card_2.html' %}
+            <!-- 3rd Card: supplier_information------------------------------------------------------------------->
+            {% include 'projects/update_project_sub_htmls/card_3.html' %}
+
+            <!--                <button class="btn btn-primary" type="submit"  style="margin-left: 10px;">Submit</button>-->
+            <button type="submit" style="margin-left: 10px;">Save(auto save by enter key)</button>
+            <!--                <a class="btn btn-info" href="{% url 'home' %}" style="margin-left: 30px;">Close</a>-->
+            <a href="{% url 'home' %}" style="margin-left: 30px;">Close</a>
+
+        </form>
+    </div>
+</div>
+
+<!-- original project_form------------------------------------------------------------------>
+<!--{% include 'projects/update_project_sub_htmls/update_project_sub.html' %}-->
+
+<!--input product form----------------------------------------------------------------->
+<div id="updateProductContainer" style="display: none;">
+    {% include 'projects/update_project_sub_htmls/update_product.html' %}
+</div>
+
+<!--input supplier form------------------------------------------------------------------>
+<div id="updateSupplierContainer" style="display: none;">
+    {% include 'projects/update_project_sub_htmls/update_supplier.html' %}
+</div>
+
+<!--input supplier+product special requirement form---------------------------------------->
+<div id="updateSupplierProductContainer" style="display: none;">
+    {% include 'projects/update_project_sub_htmls/update_supplier_product_special_requirement.html' %}
+</div>
+
+<!--scripts------------------------------------------------------------------------------->
+{% include 'projects/update_project_sub_htmls/scripts.html' %}
+{% include 'projects/update_project_sub_htmls/js_not_focus_text_area_auto_submit_form.html' %}
+{% include 'projects/update_project_sub_htmls/scripts_jump_top.html' %}
+{% include 'projects/update_project_sub_htmls/scripts_mouseover_tip.html' %}
+
+{% endblock content %}

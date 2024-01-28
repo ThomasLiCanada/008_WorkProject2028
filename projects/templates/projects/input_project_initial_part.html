@@ -1,0 +1,96 @@
+<!--templates/projects/input_project_initial_part.html--------------------------------------------------------------------->
+<title>Input project</title>
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<p></p>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5 mx-auto">
+                <h7>Oops, This lot is not found in Receiving team's excel file.</h7>
+                <h5>Input project</h5>
+                <hr>
+                <div class="card card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="form-group row">
+                            <label for="supplier_name" class="col-sm-4 col-form-label text-left">Supplier name</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="supplier_name" name="supplier_name" required autofocus>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="part_description" class="col-sm-4 col-form-label text-left">Part description</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="part_description" name="part_description" placeholder="or part number... " required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="po_num" class="col-sm-4 col-form-label text-left">PO number</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="po_num" name="po_num" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="lot_num" class="col-sm-4 col-form-label text-left">Lot Number</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="lot_num" name="lot_num" value="{{ project_form.initial.lot_num }}" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="qty" class="col-sm-4 col-form-label text-left">Qty</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="qty" name="qty" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="location" class="col-sm-4 col-form-label text-left">Location</label>
+                            <div class="col-sm-8">
+                                <div class="select-style">
+                                    <select class="form-control" id="location" name="location" required>
+                                        {% for loc_code, loc_name in project.LOCATION %}
+                                            <option value="{{ loc_code }}">{{ loc_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="form-group row">
+                            <label for="receiving_date" class="col-sm-4 col-form-label text-left">Receiving date</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="receiving_date" name="receiving_date" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" style="display: none;" >
+                            <label for="project_inspector" class="col-sm-4 col-form-label text-left">Inspector</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="project_inspector" name="project_inspector" value="{{ project_form.initial.project_inspector }}" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-8 offset-sm-4">
+                                <button type="submit" class="btn btn-primary custom-btn" name="project_form_submit">Save Project</button>
+                                <a class="btn btn-primary btn-info custom-btn" href="{% url 'input_new_project_by_lot_num' %}">Cancel</a>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock content %}

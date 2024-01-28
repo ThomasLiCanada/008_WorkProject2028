@@ -1,0 +1,294 @@
+<!-- JavaScript to handle toggling content visibility -->
+<script>
+  var shortContent = document.getElementById('shortContent');
+  var fullContent = document.getElementById('fullContent');
+
+  document.getElementById('showMoreLink').addEventListener('click', function() {
+    shortContent.style.display = 'none';
+    fullContent.style.display = 'inline';
+  });
+
+  document.getElementById('showLessLink').addEventListener('click', function() {
+    shortContent.style.display = 'inline';
+    fullContent.style.display = 'none';
+  });
+</script>
+
+<!-- JavaScript to handle toggling Email content visibility -->
+<script>
+  var shortEmailContent = document.getElementById('shortEmailContent');
+  var fullEmailContent = document.getElementById('fullEmailContent');
+
+  document.getElementById('showMoreEmailLink').addEventListener('click', function() {
+    shortEmailContent.style.display = 'none';
+    fullEmailContent.style.display = 'inline';
+  });
+
+  document.getElementById('showLessEmailLink').addEventListener('click', function() {
+    shortEmailContent.style.display = 'inline';
+    fullEmailContent.style.display = 'none';
+  });
+</script>
+
+<!-- JavaScript function to copy text to clipboard -->
+<script>
+    function copyToClipboard(text) {
+        const el = document.createElement('textarea'); // Create a textarea element
+        el.value = text; // Set its value to the text you want to copy
+        el.setAttribute('readonly', ''); // Make it readonly to be focused without keyboard
+        el.style.position = 'absolute';
+        el.style.left = '-9999px'; // Move it off-screen
+        document.body.appendChild(el); // Append the textarea element to the document
+        const selected =
+            document.getSelection().rangeCount > 0 // Check if there is any content selected previously
+                ? document.getSelection().getRangeAt(0) // Store selection if found
+                : false;
+        el.select(); // Select the content inside the textarea
+        document.execCommand('copy'); // Copy text to clipboard
+        document.body.removeChild(el); // Remove the textarea element
+        if (selected) {
+            document.getSelection().removeAllRanges(); // If a selection existed before copying, restore it
+            document.getSelection().addRange(selected);
+        }
+
+        const copyTextElement = document.getElementById('copyText');
+        copyTextElement.textContent = 'Task title Copied'; // Change the text to 'Copied'
+
+        setTimeout(function() {
+            copyTextElement.textContent = 'Copy'; // Reset text to 'Copy' after 2 seconds
+        }, 2000);
+    }
+</script>
+
+
+<!--open dmr in new tab-->
+<script>
+function openNewTabWithData() {
+    var partDmrValue = "{{ project.part_dmr|default_if_none:'' }}";
+    if (partDmrValue) {
+        var form = document.createElement("form");
+        form.method = "post";
+        form.action = "/your-destination-url/"; // Replace with your destination URL
+
+        var inputField = document.createElement("input");
+        inputField.type = "hidden";
+        inputField.name = "part_dmr_value"; // Replace with your desired parameter name
+        inputField.value = partDmrValue;
+        form.appendChild(inputField);
+
+        // Adding CSRF token to the form
+        var csrfToken = document.createElement("input");
+        csrfToken.type = "hidden";
+        csrfToken.name = "csrfmiddlewaretoken";
+        csrfToken.value = "{{ csrf_token }}";
+        form.appendChild(csrfToken);
+
+        document.body.appendChild(form);
+
+        form.target = "_blank";
+        form.submit();
+
+        document.body.removeChild(form);
+    }
+}
+</script>
+
+<!-- Add jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<!--checkboxes checked (e.g. projectLabelChecked), submit form value-->
+<script>
+    $(document).ready(function () {
+        $('#projectLabelChecked').change(function () {
+            // Submit the form regardless of checkbox state
+            $('#myForm').submit();
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#project_dhr_reviewed').change(function () {
+            // Submit the form regardless of checkbox state
+            $('#myForm').submit();
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#project_parts_moved_pac_nc').change(function () {
+            // Submit the form regardless of checkbox state
+            $('#myForm').submit();
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#documentation_check_result_ok').change(function () {
+            // Submit the form regardless of checkbox state
+            $('#myForm').submit();
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#parts_inspection_result_ok').change(function () {
+            // Submit the form regardless of checkbox state
+            $('#myForm').submit();
+        });
+    });
+</script>
+
+<!--copy dmr path-->
+<script>
+function copyToClipboard1() {
+  // Select the value to copy
+  var dmrValue = document.getElementById('dmrValue');
+
+  // Get the trimmed text content
+  var trimmedText = dmrValue.textContent.trim();
+
+  // Create a textarea element to hold the text to copy
+  var textarea = document.createElement('textarea');
+  textarea.value = trimmedText;
+
+  // Append the textarea to the document
+  document.body.appendChild(textarea);
+
+  // Select the text within the textarea
+  textarea.select();
+
+  // Copy the selected text
+  document.execCommand('copy');
+
+  // Remove the textarea from the document
+  document.body.removeChild(textarea);
+
+  // Inform the user that the text has been copied
+  // alert('DMR value copied to clipboard: ' + trimmedText);
+
+        const copyTextElement = document.getElementById('copyDmr');
+        copyTextElement.textContent = 'MDR path Copied'; // Change the text to 'Copied'
+
+        setTimeout(function() {
+            copyTextElement.textContent = 'DMR'; // Reset text to 'Copy' after 2 seconds
+        }, 2000);
+
+}
+</script>
+
+
+<!--copy product file path to clipboard--------->
+<script>
+function copyToClipboard3() {
+  // Select the value to copy
+  var ProductFileValue = document.getElementById('ProductFileValue');
+
+  // Get the trimmed text content
+  var trimmedText = ProductFileValue.textContent.trim();
+
+  // Create a textarea element to hold the text to copy
+  var textarea = document.createElement('textarea');
+  textarea.value = trimmedText;
+
+  // Append the textarea to the document
+  document.body.appendChild(textarea);
+
+  // Select the text within the textarea
+  textarea.select();
+
+  // Copy the selected text
+  document.execCommand('copy');
+
+  // Remove the textarea from the document
+  document.body.removeChild(textarea);
+
+  // Inform the user that the text has been copied
+  // alert('DMR value copied to clipboard: ' + trimmedText);
+
+        const copyTextElement = document.getElementById('copyProductFile');
+        copyTextElement.textContent = 'Product File Path Copied'; // Change the text to 'Copied'
+
+        setTimeout(function() {
+            copyTextElement.textContent = 'Product File'; // Reset text to 'Copy' after 2 seconds
+        }, 2000);
+
+}
+</script>
+
+<!--copy product lot_number to clipboard--------->
+<script>
+function copyToClipboard4() {
+  // Select the value to copy
+  var project_lot_number = document.getElementById('project_lot_number');
+
+  // Get the value of the input field
+  var inputValue = project_lot_number.value;
+
+  // Create a textarea element to hold the text to copy
+  var textarea = document.createElement('textarea');
+  textarea.value = inputValue;
+
+  // Append the textarea to the document
+  document.body.appendChild(textarea);
+
+  // Select the text within the textarea
+  textarea.select();
+
+  // Copy the selected text
+  document.execCommand('copy');
+
+  // Remove the textarea from the document
+  document.body.removeChild(textarea);
+
+  // Inform the user that the text has been copied
+  const copyTextElement = document.getElementById('copylot');
+  copyTextElement.textContent = 'Lot Number Copied'; // Change the text to 'Copied'
+
+  setTimeout(function() {
+      copyTextElement.textContent = 'Lot'; // Reset text to 'Copy' after 2 seconds
+  }, 2000);
+}
+</script>
+
+<!--copy project file local path to clipboard--------->
+<script>
+function copyToClipboard5() {
+  // Select the value to copy
+  var project_file_path = document.getElementById('project_file_local_path');
+
+  // Get the value of the input field
+  var inputValue = project_file_path.value;
+
+  // Set a default value if inputValue is null or undefined
+  inputValue = inputValue || "C:\\Thomas_Li\\001_Project_files";
+
+  // Create a textarea element to hold the text to copy
+  var textarea = document.createElement('textarea');
+  textarea.value = inputValue;
+
+  // Append the textarea to the document
+  document.body.appendChild(textarea);
+
+  // Select the text within the textarea
+  textarea.select();
+
+  // Copy the selected text
+  document.execCommand('copy');
+
+  // Remove the textarea from the document
+  document.body.removeChild(textarea);
+
+  // Inform the user that the text has been copied
+  const copyTextElement = document.getElementById('copylocalfilepath');
+  copyTextElement.textContent = 'Local file path copied'; // Change the text to 'Copied'
+
+  setTimeout(function() {
+      copyTextElement.textContent = 'Local file'; // Reset text to 'Copy' after 2 seconds
+  }, 2000);
+}
+</script>

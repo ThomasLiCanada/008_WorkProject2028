@@ -1,0 +1,23 @@
+<!-- customers/input_form.html -->
+<title>InputNewProject</title>
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container" >
+    <form method="post">{% csrf_token %}
+        <P></P>
+        <H3> New project</H3>
+        <p></p>
+        <br>
+        <label for="lot_num">Enter Lot number:</label><br>
+        <input type="text" id="lot_num" name="lot_num" required style="width: 30%;" autofocus> <br>
+        <p></p>
+        <button type="submit" style="height: 50px; width: 30%;">Import Data from Receiving Team</button>
+        <p></p>
+        <a href="{% url 'upload' %}" target="_blank">* Refresh receiving team's excel file</a><br>
+
+    </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,21 @@
+<title>delete project</title>
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container text-center mt-5">
+    <p></p>
+    <H4>Are you sure you want to delete the project: "{{project.lot_num}}"?</H4>
+    <p></p>
+    <br>
+    <p></p>
+
+    <form action="{% url 'delete_project' project.id %}" method="POST"> {% csrf_token %}
+
+        <button class="btn btn-danger" type="submit" >Confirm</button>
+        <a class="btn btn-info" href="/" style="margin-left: 2%;">Cancel</a>
+
+
+    </form>
+</div>
+{% endblock content %}

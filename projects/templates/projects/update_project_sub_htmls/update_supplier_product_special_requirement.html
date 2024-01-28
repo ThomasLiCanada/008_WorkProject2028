@@ -1,0 +1,149 @@
+<!--<div class="container" id="input-supplier-product-form">-->
+<!--    <h5 style="background-color: #A1DFDC;">Supplier Product Special Requirement</h5>-->
+<!--    <form method="post" enctype="multipart/form-data">{% csrf_token %}-->
+
+<!--        {% for field in supplier_product_form %}-->
+<!--            {% if field.name != 'supplier_keyword' and field.name != 'part_number_formal' %}-->
+<!--                {{ field.label_tag }}<br>-->
+<!--                {{ field }}<br>-->
+<!--            {% else %}-->
+<!--                {{ field.label_tag }} <br>-->
+<!--                <div style="display: none;">-->
+<!--                    {{ field }}-->
+<!--                </div>-->
+<!--                <div style="display: inline-block; border: 1px solid #ccc; background-color: #fff; width: 100%; height: 50px;display: flex;align-items: center;">-->
+<!--                    {{field.value}}-->
+<!--                </div>-->
+<!--                <p></p>-->
+<!--            {% endif %}-->
+<!--        {% endfor %}-->
+<!--&lt;!&ndash;simple one directly show all value and can modify it&ndash;&gt;-->
+<!--&lt;!&ndash;        {{supplier_product_form}}&ndash;&gt;-->
+<!--        <button type="submit" name="supplier_product_form_submit"> Save Supplier_Product</button>-->
+<!--    </form>-->
+<!--</div>-->
+
+
+
+<!--webpage format adjustment as below-->
+<div class="row" id="input-supplier-product-form">
+    <div class="col">
+        <div class="card">
+            <div class="card-body" style="background-color: #f5f6f7;">
+                <h5 style="background-color: #A1DFDC;">Supplier Product Special Requirement:</h5>
+                <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                    <div class="row">
+                        {% for field in supplier_product_form %}
+                        <div class="col-md-6">
+                            {% if field.name != 'supplier_keyword' and field.name != 'part_number_formal' %}
+                                {{ field.label_tag }}<br>
+                                {{ field }}<br>
+                            {% else %}
+                                {{ field.label_tag }} <br>
+                                <div style="display: none;">
+                                    {{ field }}
+                                </div>
+                                <div style="display: inline-block; border: 1px solid #ccc; background-color: #fff; width: 100%; height: 50px;display: flex;align-items: center;">
+                                    {{field.value}}
+                                </div>
+                                <p></p>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <button type="submit" name="supplier_product_form_submit" id="submit-btn3">Save Supplier_Product</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--function: click a link to show "input supplier product form", and jump to the beginning of this snippet-------------->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the hyperlink element
+        var showUpdateSupplierProductFormLink = document.getElementById('showUpdateSupplierProductForm');
+
+        // Add a click event listener to the hyperlink
+        showUpdateSupplierProductFormLink.addEventListener('click', function(event) {
+            event.preventDefault();  // Prevent the default behavior of the hyperlink
+
+        // Show/hide the container based on its current state
+        var updateSupplierProductContainer = document.getElementById('updateSupplierProductContainer');
+        updateSupplierProductContainer.style.display = (updateSupplierProductContainer.style.display === 'none') ? 'block' : 'none';
+
+        // Scroll to the beginning of the updateSupplierProductContainer
+        if (updateSupplierProductContainer.style.display === 'block') {
+            updateSupplierProductContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        });
+    });
+</script>
+
+<!--same as above, for 2nd link-->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the hyperlink element
+        var showUpdateSupplierProductFormLink = document.getElementById('showUpdateSupplierProductForm2');
+
+        // Add a click event listener to the hyperlink
+        showUpdateSupplierProductFormLink.addEventListener('click', function(event) {
+            event.preventDefault();  // Prevent the default behavior of the hyperlink
+
+        // Show/hide the container based on its current state
+        var updateSupplierProductContainer = document.getElementById('updateSupplierProductContainer');
+        updateSupplierProductContainer.style.display = (updateSupplierProductContainer.style.display === 'none') ? 'block' : 'none';
+
+        // Scroll to the beginning of the updateSupplierProductContainer
+        if (updateSupplierProductContainer.style.display === 'block') {
+            updateSupplierProductContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        });
+    });
+</script>
+
+
+<!--same as above, for 3rd link-->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the hyperlink element
+        var showUpdateSupplierProductFormLink = document.getElementById('showUpdateSupplierProductForm3');
+
+        // Add a click event listener to the hyperlink
+        showUpdateSupplierProductFormLink.addEventListener('click', function(event) {
+            event.preventDefault();  // Prevent the default behavior of the hyperlink
+
+        // Show/hide the container based on its current state
+        var updateSupplierProductContainer = document.getElementById('updateSupplierProductContainer');
+        updateSupplierProductContainer.style.display = (updateSupplierProductContainer.style.display === 'none') ? 'block' : 'none';
+
+        // Scroll to the beginning of the updateSupplierProductContainer
+        if (updateSupplierProductContainer.style.display === 'block') {
+            updateSupplierProductContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        });
+    });
+</script>
+
+<!--same as above, for 4th link-->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the hyperlink element
+        var showUpdateSupplierProductFormLink = document.getElementById('showUpdateSupplierProductForm4');
+
+        // Add a click event listener to the hyperlink
+        showUpdateSupplierProductFormLink.addEventListener('click', function(event) {
+            event.preventDefault();  // Prevent the default behavior of the hyperlink
+
+        // Show/hide the container based on its current state
+        var updateSupplierProductContainer = document.getElementById('updateSupplierProductContainer');
+        updateSupplierProductContainer.style.display = (updateSupplierProductContainer.style.display === 'none') ? 'block' : 'none';
+
+        // Scroll to the beginning of the updateSupplierProductContainer
+        if (updateSupplierProductContainer.style.display === 'block') {
+            updateSupplierProductContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        });
+    });
+</script>

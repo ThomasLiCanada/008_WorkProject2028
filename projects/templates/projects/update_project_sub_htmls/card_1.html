@@ -1,0 +1,93 @@
+<!-- First Card: project_information -------------------------------------------------------->
+                <div class="card">
+                    <div class="card-body" style="background-color: #f5f6f7;">
+<!--                        <h5 style="background-color: #A1DFDC;">-->
+<!--                        <h5 style="background-color: #EAF6FC;">-->
+                        <h5 style="background-color: #CCDEF0;">
+                            {{asana_info}}
+                            <!-- Add a button for copying -->
+                            <span id="copyText" style="text-decoration: underline; cursor: pointer; color: blue;font-size:16px; margin-left: 5px;" onclick="copyToClipboard('{{ asana_info }}')">Copy</span>
+                                    <a href="https://tasks.office.com/ezcollab.onmicrosoft.com/EN-GB/Home/Planner#/plantaskboard?groupId=84ce2a09-387f-49cc-9744-4f16d32a0648&planId=Kfq7hOjQIU2X0CWDV4WS1GUADhsQ&taskId=QRStGWwwTEGb4_7LcLFo52UACkMy" style="margin-left: 30px;font-size:14px;" target="_blank">QC Kanban</a>
+                                    <a href="{% url 'project_list' %}" style="margin-left: 15px;font-size:14px;">ALL Projects</a>
+                                    <a href="{% url 'ongoing_project_list' %}" style="margin-left: 15px;font-size:14px;">Ongoing Projects</a>
+                                    <a href="{% url 'input_new_project_by_lot_num' %}" style="margin-left: 15px;font-size:14px;"> + New Project</a>
+                        </h5>
+<!--                        show eDHR link-->
+                        {% if project.project_edhr %}
+                            <a href="{{ project.project_edhr }}" target="_blank">eDHR>>></a>
+                        {% else %}
+                            {% if projects.0.supplier_product_info.supplier_product.sps_pn_supplier_edhr %}
+                                <a href="{{ projects.0.supplier_product_info.supplier_product.sps_pn_supplier_edhr }}" target="_blank">eDHR/{{ projects.0.project_info.product.part_number_formal}}/{{ projects.0.supplier_info.supplier.supplier_keyword|default_if_none:'' }}</a>
+                            {% else %}
+                                {% if projects.0.project_info.product.part_edhr %}
+                                    <a href="{{ projects.0.project_info.product.part_edhr }}" target="_blank">eDHR/{{ projects.0.project_info.product.part_number_formal}}</a>
+                                {% else %}
+                                    <a href="https://livelink.nam.zimmer.com/livelink/livelink.exe?func=ll&objId=71709924&objAction=browse&viewType=1" target="_blank">eDHR/root</a>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+
+                        {% if project.project_edhr %}
+                            <input id="project_project_edhr" name="project_edhr"
+                                   value="{{ project.project_edhr|default_if_none:'' }}" placeholder="copy & paste eDHR livelink address of this project, here ..."
+                                   style="width: 600px; margin-left: 10px; display: none">
+                        {% else %}
+<!--                            <label>eDHR livelink path:</label>-->
+                            <input id="project_project_edhr1" name="project_edhr"
+                                   value="{{ project.project_edhr|default_if_none:'' }}" placeholder="copy & paste eDHR livelink address of this project, here ..."
+                                   style="width: 600px; margin-left: 10px;">
+                            <br><p></p>
+                        {% endif %}
+
+<!--                        <label>PO</label>-->
+                        <input id="project_po_number_only" name="po_num"
+                               value="{{ project.po_num|default_if_none:'' }}"
+                               placeholder="PO..." required style="width: 100px;">
+                        <label>Release</label>
+                        <input id="project_release_num" name="project_release_num"
+                               value="{{ project.project_release_num|default_if_none:'' }}"
+                               placeholder="" required style="width: 50px;">
+                        <label>PO-Rev</label>
+                        <input name="project_po_reversion" value="{{ project.project_po_reversion|default_if_none:'' }}"
+                               placeholder="" style="width: 50px;">
+<!--                        <label>Supplier:</label>-->
+<!--                        <input id="project_supplier_name_1" name="supplier_key_word"-->
+<!--                               value="{{ project.supplier_key_word|default_if_none:'' }}"-->
+<!--                               placeholder="supplier_name..." readonly>-->
+<!--                        <label>PN:</label>-->
+<!--                        <input id="project_part_number_1" name="part_number_official"-->
+<!--                               value="{{ project.part_number_official|default_if_none:'' }}"-->
+<!--                               placeholder="part_number...">-->
+<!-- below information, not to show to the user, however, the form need it to save the value, otherwise these fields will be "None"-->
+                        <input name="supplier_name" value="{{ project.supplier_name|default_if_none:'' }}" placeholder="supplier_name..." style="width: 150px; " readonly>
+                        <input name="part_description" value="{{ project.part_description|default_if_none:'' }}" placeholder="part_description..." style="width: 200px; " readonly>
+                        <input name="location" value="{{ project.location|default_if_none:'' }}" placeholder="location..." style="width: 1px; display: none;">
+                        <input name="received_date" value="{{ project.received_date|default_if_none:'' }}" placeholder="received_date..." style="width: 1px; display: none;">
+                        <input name="project_inspector" value="{{ project.project_inspector|default_if_none:'' }}" placeholder="project_inspector..." style="width: 1px; display: none;">
+
+                        <span style="text-decoration: underline; cursor: pointer; color: blue;
+                            font-size:16px; font-weight: bold; margin-left: 10px;" id="copylot" onclick="copyToClipboard4()">Lot</span>
+<!--                        <label>Lot:</label>-->
+                        <input id="project_lot_number" name="lot_num"
+                               value="{{ project.lot_num|default_if_none:'' }}" placeholder="lot_number..."
+                               required style="width: 100px;">
+
+                        <label>Qty:</label>
+                        <input id="project_lot_qty" name="qty"
+                               value="{{ project.qty|default_if_none:'' }}" placeholder="qty..."
+                               style="width: 50px;">
+
+                        <span style="text-decoration: underline; cursor: pointer; color: blue;
+                            font-size:16px; margin-left: 10px;" id="copylocalfilepath" onclick="copyToClipboard5()">Local file</span>
+<!--                        <label>Local file</label>-->
+                            <input id="project_file_local_path" name="project_file_local_path"
+                                   value="{{ project.project_file_local_path|default_if_none:'' }}"
+                                   placeholder="path..."
+                                    {% if project.project_file_local_path %}
+                                        style="width: 100px; display: none;">
+                                    {% else %}
+                                        style="width: 200px;">
+                                    {% endif %}
+
+                    </div>
+                </div>

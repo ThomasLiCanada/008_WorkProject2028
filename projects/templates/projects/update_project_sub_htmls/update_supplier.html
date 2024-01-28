@@ -1,0 +1,87 @@
+<!--<div class="container" id="input-supplier-form">-->
+<!--    <h5 style="background-color: #A1DFDC;">Supplier</h5>-->
+<!--    <form method="post" enctype="multipart/form-data">{% csrf_token %}-->
+<!--        {{supplier_form}}-->
+<!--        <button type="submit" name="supplier_form_submit"> Save Supplier</button>-->
+<!--    </form>-->
+<!--</div>-->
+
+<!--&lt;!&ndash;webpage format adjustment as below&ndash;&gt;-->
+<!--<div class="row" id="input-supplier-form">-->
+<!--    <div class="col">-->
+<!--        <div class="card">-->
+<!--            <div class="card-body" style="background-color: #f5f6f7;">-->
+<!--                <h5 style="background-color: #A1DFDC;">Supplier:</h5>-->
+<!--                <form method="post" enctype="multipart/form-data">{% csrf_token %}-->
+<!--                    <div class="row">-->
+<!--                        {% for field in supplier_form %}-->
+<!--                        <div class="col-md-6">-->
+<!--                            {{ field.label_tag }}-->
+<!--                            {{ field }}-->
+<!--                        </div>-->
+<!--                        {% endfor %}-->
+<!--                    </div>-->
+
+<!--                    <button type="submit" name="supplier_form_submit" id="submit-btn2">Save Supplier</button>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+<!--webpage format adjustment as below-->
+<div class="row" id="input-supplier-form">
+    <div class="col">
+        <div class="card">
+            <div class="card-body" style="background-color: #f5f6f7;">
+                <h5 style="background-color: #A1DFDC;">Supplier:</h5>
+                <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                    <div class="row">
+                        {% for field in supplier_form %}
+                            <div class="col-md-6">
+                                {% if field.name != 'supplier_keyword' %}
+                                    {{ field.label_tag }}<br>
+                                    {{ field }}<br>
+                                {% else %}
+                                    {{ field.label_tag }} <br>
+                                    <div style="display: none;">
+                                        {{ field }}
+                                    </div>
+                                    <div style="display: inline-block; border: 1px solid #ccc; background-color: #fff; width: 100%; height: 50px;display: flex;align-items: center;">
+                                        {{field.value}}
+                                    </div>
+                                    <p></p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <button type="submit" name="supplier_form_submit" id="submit-btn2">Save Supplier</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--function: click a link to show "input supplier form", and jump to the beginning of this snippet-------------->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the hyperlink element
+        var showUpdateSupplierFormLink = document.getElementById('showUpdateSupplierForm');
+
+        // Add a click event listener to the hyperlink
+        showUpdateSupplierFormLink.addEventListener('click', function(event) {
+            event.preventDefault();  // Prevent the default behavior of the hyperlink
+
+        // Show/hide the container based on its current state
+        var updateSupplierContainer = document.getElementById('updateSupplierContainer');
+        updateSupplierContainer.style.display = (updateSupplierContainer.style.display === 'none') ? 'block' : 'none';
+
+        // Scroll to the beginning of the updateSupplierContainer
+        if (updateSupplierContainer.style.display === 'block') {
+            updateSupplierContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        });
+    });
+</script>

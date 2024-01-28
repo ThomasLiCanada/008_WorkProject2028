@@ -1,0 +1,173 @@
+<!-- Second Card: Other inputs --------------------------------------------------------------------------->
+                <div class="card">
+                    <div class="card-body" style="background-color: #f5f6f7;">
+                        {% if projects.0.project_info.product.part_number_formal %}
+<!--                            <h6 style="background-color: #A1DFDC;">-->
+                            <h6 style="background-color: #CCDEF0;">
+<!--                            <h6 style="background-color: #BDD1FF;">-->
+                        {% else %}
+                            <h6 style="background-color: #F2B7AC;"> <!-- Set background color to red if part_number_official is None -->
+                                <a href="{% url 'home' %}">Update description and PN</a>
+                        {% endif %}
+<!--                            <span>{{ projects.0.project_info.product.part_number_formal|default_if_none:'' }}</span>-->
+<!--                                <a href="{% url 'update_product' projects.0.project_info.product.part_number_formal %}">{{ projects.0.project_info.product.part_number_formal|default_if_none:'' }}</a>-->
+<!--                                <a href="#input-product-form">{{ projects.0.project_info.product.part_number_formal|default_if_none:'' }}</a>-->
+                                <a href="#input-product-form" id="showUpdateProductForm">{{ projects.0.project_info.product.part_number_formal|default_if_none:'' }}</a>
+                                <a href="{{ projects.0.project_info.product.part_edhr|default_if_none:'#' }}" target="_blank">-eDHR</a>
+                            <span style="font-size:12px; margin-left: 10px;">{{ projects.0.project_info.product.part_name_official|default_if_none:'' }}</span>
+
+                                <span style="text-decoration: underline; cursor: pointer; color: blue;
+                            font-size:14px; margin-left: 10px;" id="copyDmr" onclick="copyToClipboard1()">DMR</span>
+                            <span style="font-size:12px; display: none;" id="dmrValue">
+                              {{ projects.0.project_info.product.part_dmr|default_if_none:'' }}
+                            </span>
+                            <span style="font-size:12px; margin-left: 10px;">{{projects.0.project_info.product.part_ifu|default_if_none:''}}</span>
+                            <a href="https://livelink.nam.zimmer.com/livelink/livelink.exe/fetch/2000/14979059/14978341/14979060/127370068/16334452/125076607/130523284/130589913/-/QF03%2D93_Rev.1_Device_Cleanliness_Requirements_Master_Index_List_%2D_RevC.pdf?nodeid=130523286&vernum=-2" style="margin-left: 15px;font-size:14px;" target="_blank">QF03‐93</a>
+                            <a href="https://livelink.nam.zimmer.com/livelink/livelink.exe/fetch/2000/14979059/14978341/14979060/127400881/16334279/50848494/-/QF06%2D12_Rev.33_Packaging_and_Weight_List.pdf?nodeid=50849200&vernum=-2" style="margin-left: 15px;font-size:14px;" target="_blank">Packaging and Weight List</a>
+
+                            <span style="text-decoration: underline; cursor: pointer; color: blue;
+                            font-size:14px; margin-left: 10px;" id="copyProductFile" onclick="copyToClipboard3()">Product File</span>
+                            <span style="font-size:12px; display: none;" id="ProductFileValue">
+                              {{ projects.0.project_info.product.part_product_file|default_if_none:'' }}
+                            </span>
+
+                            </h6>
+
+                        <hr>
+<!--                        <input name="project_documentation_check_result"-->
+<!--                               value="{{ project.project_documentation_check_result|default_if_none:'' }}"-->
+<!--                               placeholder="Documentation_check_result..." style="width: 1000px;">-->
+<!--                        <label style="vertical-align: top;">Documentation:</label>-->
+                                    <a href="https://ezcollab.sharepoint.com/sites/QCDepartment/Shared%20Documents/Forms/AllItems.aspx" target="_blank">Documentation</a>
+                        <textarea name="project_documentation_check_result" placeholder=""
+                                  style="width: 60%; height: 45px; vertical-align: top;">{{ project.project_documentation_check_result|default_if_none:'' }}
+                        </textarea>
+
+                        <label>OK...</label>
+                        <input type="checkbox" name="project_documentation_check_result_ok"
+                               style="transform: scale(1.5);"
+                               {% if project.project_documentation_check_result_ok %} checked {% endif %}
+                               value="True" id="documentation_check_result_ok">
+<!--                        <send mail> button -------------------------------------->
+                                {% if project.project_documentation_check_result %}
+                                    {% if not project.project_documentation_check_result_ok %}
+                                        <br>
+<!--                                        <button class="btn btn-sm" id="sendMailBtn" name="send_mail" style="background-color: #D48B15; color: white;">Send Mail</button>-->
+                                            <a href="{% url 'update_project_view_send_mail' project.id %}" target="_blank" style="background-color: #DAEBEB; color: blue; margin-left: 120px;">Mail: documentation findings</a>
+                                    {% endif %}
+                                {% endif %}
+
+                        <p></p>
+                        <b>GTIN: </b> <span style="background-color: #DAEBEB;">{{ projects.0.project_info.product.part_gtin_number|default_if_none:'' }}</span>
+
+                        <!-- Display short content with a clickable link to show more -->
+                        <b style="margin-left: 50px;">Special test:</b>
+                        <span id="shortContent" style="background-color: #DAEBEB;">
+                          {{ projects.0.project_info.product.part_special_test|default_if_none:''|truncatechars:90 }}
+                          {% if projects.0.project_info.product.part_special_test|length > 90 %}
+                            <a href="javascript:void(0);" id="showMoreLink">>>></a>
+                          {% endif %}
+                        </span>
+
+                        <!-- Full content hidden initially -->
+                        <span id="fullContent" style="display: none; background-color: #DAEBEB;">
+                          {{ projects.0.project_info.product.part_special_test|default_if_none:'' }}
+                          <a href="javascript:void(0);" id="showLessLink"><<<</a>
+                        </span>
+
+                        <p></p>
+                        <label style="vertical-align: top;">Part-inspection:</label>
+                        <textarea name="project_parts_inspection_result" placeholder=""
+                                  style="width: 60%; height: 45px; vertical-align: top;">{{ project.project_parts_inspection_result|default_if_none:'' }}
+                        </textarea>
+                        <label>OK...</label>
+                        <input type="checkbox" name="project_parts_inspection_result_ok" style="transform: scale(1.5);"
+                               {% if project.project_parts_inspection_result_ok %} checked {% endif %}
+                               value="True" id="parts_inspection_result_ok">
+                        <br>
+                        <p></p>
+                        <a style="font-weight: bold;" href="https://etq.zimmerbiomet.com/reliance/reliance?ETQ$CMD=CMD_CANCEL_ALL_DOCUMENTS&ETQ$APPLICATION_NAME=NCMR&ETQ$SCREEN_WIDTH=1280" target="_blank">EtQ</a>
+
+<!--                        <label style="margin-left: 45px;">NCR-</label>-->
+                        <a style="margin-left: 45px;" href="https://tasks.office.com/ezcollab.onmicrosoft.com/EN-GB/Home/Planner/#/plantaskboard?groupId=9efca109-a2e6-4675-9473-989ac435e023&planId=mgMEsw75o0uqStyfjmfS4GUACdxU" target="_blank">NCR-</a>
+                        <input id="project_ncr_num" name="project_ncr_num"
+                               value="{{ project.project_ncr_num|default_if_none:'' }}" placeholder=""
+                               style="width: 100px;">
+                        {% if project.project_ncr_num %}
+                            <label style="margin-left: 50px;">NC-Qty:</label>
+                            <input id="project_ncr_qty" name="project_ncr_qty"
+                                   value="{{ project.project_ncr_qty|default_if_none:'' }}" placeholder=""
+                                   style="width: 50px;">
+
+                            <label style="margin-left: 50px;">OK-Qty:</label>
+                            <input id="project_final_accept_qty" name="project_final_accept_qty"
+                                   value="{{ project.project_final_accept_qty|default_if_none:'' }}" placeholder=""
+                                   style="width: 50px;" readonly>
+
+                            <a href="{% url 'update_project_view_send_mail_ncr_notice' project.id %}" target="_blank" style="font-size:14px; margin-left: 2%;">Mail: NCR Notice</a>
+                            <a href="{% url 'update_project_view_send_mail_trf_nc' project.id %}" target="_blank" style="font-size:14px; margin-left: 2%;">Mail: TRF to STKNC</a>
+
+                        {% endif %}
+
+                        <a href="{% url 'update_project_to_dhr_review_annex_1_view' project.id %}" style="margin-left: 50px; font-size:14px;">DHR review w/wo Annex 1</a>
+
+                        <br>
+                        <p></p>
+
+                        <a style="font-weight: bold;" href="{% url 'update_project_to_ip_pdf_view' project.id %}">Fill IP</a>
+                        <span style="font-size:10px">
+                            {{projects.0.project_info.product.part_number_formal}}
+                        </span>
+                        <span style="font-weight: bold;">
+                            {% if projects.0.supplier_product_info.supplier_product.sps_part_reversion %}
+                                {{projects.0.supplier_product_info.supplier_product.sps_part_reversion}}
+                            {% else %}
+                                <a href="#input-supplier-product-form" id="showUpdateSupplierProductForm3" style="color: red">
+                                    click to input part reversion in below table
+                                </a>
+                            {% endif %}
+                        </span>
+                                <span style="font-size:10px">_Rev_</span>
+                        <span style="font-weight: bold;">
+                            {% if projects.0.supplier_product_info.supplier_product.sps_ip_reversion %}
+                                {{projects.0.supplier_product_info.supplier_product.sps_ip_reversion}}
+                            {% else %}
+                                <a href="#input-supplier-product-form" id="showUpdateSupplierProductForm4" style="color: red">
+                                    click to input IP reversion in below table
+                                </a>
+                                <br>
+                            {% endif %}
+                        </span>
+<!--                        <a href="#input-supplier-product-form" id="showUpdateSupplierProductForm"><I class="fa fa-pencil"></i></a>-->
+                            <a href="#input-supplier-product-form" id="showUpdateSupplierProductForm" onmouseover="showTooltip()"><i class="fa fa-pencil"></i></a>
+                            <a href="{% url 'upload' %}" target="_blank" style="margin-left: 30px;">(add/update IP template)</a>
+
+                        <label style="margin-left: 50px;">Label Checked...</label>
+                        <input type="checkbox" name="project_label_checked" style="transform: scale(1.5);"
+                               {% if project.project_label_checked %} checked {% endif %}
+                               value="True" id="projectLabelChecked">
+<!--                                <span i style="font-size:10px">{{project.project_label_checked_date|default_if_none:''}}</span>-->
+                                {% if project.project_label_checked %}
+                                    <a href="{% url 'update_project_view_send_mail_trf_pac' project.id %}" target="_blank" style="font-size:14px;">Mail: TRF to PAC</a>
+                                {% endif %}
+
+                        <label  style="margin-left: 50px;">DHR reviewed...</label>
+                        <input type="checkbox" name="project_dhr_reviewed" style="transform: scale(1.5);"
+                               {% if project.project_dhr_reviewed %} checked {% endif %}
+                               value="True" id="project_dhr_reviewed">
+<!--                                <span i style="font-size:10px">{{project.project_dhr_reviewed_date|default_if_none:''}}</span>-->
+                                {% if project.project_dhr_reviewed %}
+                                    <a href="{% url 'update_project_view_send_mail_trf_pro' project.id %}" target="_blank" style="font-size:14px;">Mail: TRF to PRO</a>
+                                {% endif %}
+
+
+                        <label style="margin-left: 50px;">Parts moved to PAC/NC...</label>
+                        <input type="checkbox" name="project_parts_moved_pac_nc" style="transform: scale(1.5);"
+                               {% if project.project_parts_moved_pac_nc %} checked {% endif %}
+                               value="True" id="project_parts_moved_pac_nc">
+<!--                                <span i style="font-size:10px">{{project.project_parts_moved_pac_nc_date|default_if_none:''}}</span>-->
+                                {% if project.project_parts_moved_pac_nc %}
+                                    <a href="{% url 'home' %}" style="margin-left: 30px;">Close</a>
+                                {% endif %}
+                    </div>
+                </div>

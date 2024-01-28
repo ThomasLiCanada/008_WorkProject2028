@@ -1,0 +1,142 @@
+<!--projects/project_list.html-->
+<title>project list</title>
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!--show/ hide url list for development-->
+<!--<a href="{% url 'homepage' %}">Website map</a> <br>-->
+
+<br>
+<p></p>
+<div class="container">
+    <p></p>
+    <h5>
+        <a href="{% url 'project_list' %}" style="margin-left: 50px;font-size:18px;">ALL Projects</a>
+        <a href="{% url 'ongoing_project_list' %}" style="margin-left: 50px;font-size:18px;">Ongoing Projects</a>
+        <a href="{% url 'input_new_project_by_lot_num' %}" style="margin-left: 50px;font-size:18px;"> + New Project</a>
+    </h5>
+    <input type="text" id="searchInput" placeholder="Search for data..."> <!-- add this line for search bar-->
+</div>
+
+<div style="width: 90%; margin: 0 auto;">
+    {% if list_name == 'ALL Projects List' %}
+        <h5 style="color:red">{{list_name}} </h5>
+    {% else %}
+        <h5>{{list_name}} </h5>
+    {% endif %}
+
+    <table id="dataTable" style="border-collapse: collapse; width: 100%;"> <!--add id for the table to be searched-->
+        <thead style="position: sticky; top: 0; background-color: #c4c4be; z-index: 1;">
+        <tr>
+            <th></th>
+            <th>PO_Num</th>
+            <th>Release#</th>
+            <th>Supplier_Name</th>
+            <th>Part Description</th>
+<!--            <th>Project information</th>-->
+            <th>lot number</th>
+            <th>Qty</th>
+<!--            <th>Location</th>-->
+<!--            <th>RCV date</th>-->
+<!--            <th></th>-->
+
+<!--            <th>Part Number Formal</th>-->
+<!--            <th>Product information</th>-->
+<!--            <th></th>-->
+
+<!--            <th>Supplier_keyword</th>-->
+<!--            <th>Supplier_information</th>-->
+<!--            <th></th>-->
+
+<!--            <th>Supplier product special requirement</th>-->
+            <th>NCR#</th>
+            <th>Inspector</th>
+            {% if list_name == 'ALL Projects List' %}
+            {% else %}
+                <th></th>
+            {% endif %}
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for project in projects %}
+        <tr>
+            <td><a href="{% url 'update_project' project.project_info.project.id %}">Open</a></td>
+            <td>{{ project.project_info.project.po_num }}</td>
+            {% if project.project_info.project.project_release_num %}
+                <td>{{ project.project_info.project.project_release_num }}</td>
+            {% else %}
+                <td></td>
+            {% endif %}
+            <td>{{ project.project_info.project.supplier_name }}</td>
+            <td>{{ project.project_info.project.part_description }}</td>
+<!--            <td>{{ project.project_info.project.project_inf }}</td>-->
+            <td>{{ project.project_info.project.lot_num }}</td>
+
+            <td>{{ project.project_info.project.qty }}</td>
+<!--            <td>{{ project.project_info.project.location }}</td>-->
+<!--            <td>{{ project.project_info.project.received_date }}</td>-->
+<!--            <th></th>-->
+
+<!--            <td>{{ project.project_info.product.part_number_formal }}</td>-->
+<!--            <td>{{ project.project_info.product.part_inf }}</td>-->
+<!--            <th></th>-->
+
+<!--            <td>{{ project.supplier_info.supplier.supplier_keyword }}</td>-->
+<!--            <td>{{ project.supplier_info.supplier.supplier_inf }}</td>-->
+<!--            <th></th>-->
+
+<!--            <td>{{ project.supplier_product_info.supplier_product.supplier_product_inf }}</td>-->
+            {% if project.project_info.project.project_ncr_num %}
+                <td>{{ project.project_info.project.project_ncr_num }}</td>
+            {% else %}
+                <td></td>
+            {% endif %}
+
+            <td>{{ project.project_info.project.project_inspector }}</td>
+
+<!--            all project list, not show 'delete'-->
+            {% if list_name == 'ALL Projects List' %}
+            {% else %}
+                <td><a href="{% url 'delete_project' project.project_info.project.id %}">Delete</a></td>
+            {% endif %}
+
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!--function of searching: by two id-->
+<script>
+    const searchInput = document.getElementById('searchInput');
+    const dataTable = document.getElementById('dataTable');
+
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const rows = dataTable.querySelectorAll('tr');
+
+        // Start the loop from index 1 to skip the header row (index 0)
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            const cells = row.querySelectorAll('td');
+            let rowContainsSearchTerm = false;
+
+            cells.forEach(function(cell) {
+                if (cell.textContent.toLowerCase().includes(searchTerm)) {
+                    rowContainsSearchTerm = true;
+                }
+            });
+
+            if (rowContainsSearchTerm) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        }
+    });
+</script>
+
+{% endblock content %}

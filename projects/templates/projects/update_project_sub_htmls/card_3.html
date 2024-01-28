@@ -1,0 +1,50 @@
+<!-- 3rd Card: Other inputs ---------------------------------------------------------------------------->
+                <div class="card">
+                    <div class="card-body" style="background-color: #f5f6f7;">
+                        {% if projects.0.supplier_info.supplier.supplier_keyword %}
+<!--                            <h6 style="background-color: #A1DFDC;">-->
+                            <h6 style="background-color: #CCDEF0;">
+                        {% else %}
+                            <h6 style="background-color: #F2B7AC;"> <!-- Set background color to red if part_number_official is None -->
+                                <a href="{% url 'home' %}">Update supplier keyword</a>
+                        {% endif %}
+<!--                            <span>{{ projects.0.supplier_info.supplier.supplier_keyword|default_if_none:'' }}</span>-->
+<!--                            <a href="{% url 'update_supplier' projects.0.supplier_info.supplier.supplier_keyword %}">-->
+                            <a href="#input-supplier-form" id="showUpdateSupplierForm">
+                                {{ projects.0.supplier_info.supplier.supplier_keyword|default_if_none:'' }}
+                            </a>
+<!--                            <a href="{% url 'update_supplier_product' projects.0.supplier_info.supplier.supplier_keyword projects.0.project_info.product.part_number_formal %}" style="margin-left: 50px;font-size:14px">-->
+                            <a href="#input-supplier-product-form" id="showUpdateSupplierProductForm2" style="margin-left: 50px;font-size:14px">
+                                supplier + product special requirement
+                            </a>
+                        </h6>
+                        <hr>
+                        <p></p>
+                        <b>Contact: </b> <span style="background-color: #DAEBEB;">{{ projects.0.supplier_info.supplier.supplier_contact_person|default_if_none:'' }}</span>
+<!--                        <b> E-mail: </b><span style="background-color: #F0F3F5;">{{ project.supplier_contact_email|default_if_none:'' }}</span>-->
+                        <!-- Display short content with a clickable link to show more for Email -->
+                        <b style="margin-left: 20px;">Email:</b>
+                        <span id="shortEmailContent" style="background-color: #DAEBEB;">
+                          {{ projects.0.supplier_info.supplier.supplier_contact_email|default_if_none:''|truncatechars:50 }}
+                          {% if projects.0.supplier_info.supplier.supplier_contact_email|length > 50 %}
+                            <a href="javascript:void(0);" id="showMoreEmailLink">>>></a>
+                          {% endif %}
+                        </span>
+
+                        <!-- Full Email content hidden initially -->
+                        <span id="fullEmailContent" style="display: none; background-color: #DAEBEB;">
+                          {{ projects.0.supplier_info.supplier.supplier_contact_email|default_if_none:'' }}
+                          <a href="javascript:void(0);" id="showLessEmailLink"><<<</a>
+                        </span>
+
+
+                        <b style="margin-left: 20px;">Supplier file: </b>
+                        <span style="background-color: #DAEBEB;">
+                            {{ projects.0.supplier_info.supplier.supplier_File_Link|default_if_none:'' }}
+                        </span>
+
+<!--                        <button onclick="openNewTabWithData()">Open New Tab</button>-->
+                        <p></p>
+
+                    </div>
+                </div>

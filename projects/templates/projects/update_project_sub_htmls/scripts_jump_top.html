@@ -1,0 +1,13 @@
+<script>
+    $(document).ready(function () {
+        // Scroll to the top when the page is reloaded
+        $(window).on('load', function () {
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+        });
+
+        // Scroll to the top when the form is submitted
+        $('#submit-btn').on('click', function () {
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+        });
+    });
+</script>

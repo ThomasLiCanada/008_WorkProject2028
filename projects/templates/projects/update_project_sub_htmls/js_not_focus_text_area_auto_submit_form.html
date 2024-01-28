@@ -1,0 +1,22 @@
+<!--When not focus on text area, auto submit the form-->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var textarea = document.querySelector('textarea[name="project_documentation_check_result"]');
+    var form = document.getElementById('myForm');
+
+    textarea.addEventListener('blur', function() {
+        form.submit();
+    });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var textarea = document.querySelector('textarea[name="project_parts_inspection_result"]');
+    var form = document.getElementById('myForm');
+
+    textarea.addEventListener('blur', function() {
+        form.submit();
+    });
+});
+</script>

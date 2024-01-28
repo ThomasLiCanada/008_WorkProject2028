@@ -1,0 +1,288 @@
+<!--a05_projects/current_project.html-->
+<title>Current project</title>
+{% extends 'base.html' %}
+{% block content %}
+<!--<br>-->
+<div class="row">
+    <div class="col">
+        <div class="card card-body" style="background-color: #f5f6f7;">
+            <!-- First Card: project_lot_number and project_lot_qty -->
+            <form method="post" enctype="multipart/form-data" id="myForm">
+                {% csrf_token %}
+                <div class="card">
+                    <div class="card-body" style="background-color: #f5f6f7;">
+                        <h5 style="background-color: #A1DFDC;">{{ project.ASANA }}
+                        <!-- Add a button for copying -->
+                        <span id="copyText" style="text-decoration: underline; cursor: pointer; color: blue;font-size:16px; margin-left: 20px;" onclick="copyToClipboard('{{ project.ASANA }}')">Copy</span>
+                        </h5>
+<!--                        <hr>-->
+                        <label>Lot:</label>
+                        <input id="project_lot_number" name="lot_num"
+                               value="{{ project.lot_num|default_if_none:'' }}" placeholder="lot_number..."
+                               required style="width: 100px;">
+                        <label>Qty:</label>
+                        <input id="project_lot_qty" name="qty"
+                               value="{{ project.qty|default_if_none:'' }}" placeholder="qty..."
+                               style="width: 50px;">
+                        <label>PO</label>
+                        <input id="project_po_number_only" name="po_num"
+                               value="{{ project.po_num|default_if_none:'' }}"
+                               placeholder="PO..." required style="width: 100px;">
+                        <label>Release</label>
+                        <input id="project_release_num" name="project_release_num"
+                               value="{{ project.project_release_num|default_if_none:'' }}"
+                               placeholder="num..." style="width: 50px;">
+                        <label>PO-Rev</label>
+                        <input name="project_po_reversion" value="{{ project.project_po_reversion|default_if_none:'' }}"
+                               placeholder="num..." style="width: 50px;">
+                        <label>Supplier:</label>
+                        <input id="project_supplier_name_1" name="supplier_key_word"
+                               value="{{ project.supplier_key_word|default_if_none:'' }}"
+                               placeholder="supplier_name..." readonly>
+                        <label>PN:</label>
+                        <input id="project_part_number_1" name="part_number_official"
+                               value="{{ project.part_number_official|default_if_none:'' }}"
+                               placeholder="part_number...">
+<!-- below information, not to show to the user, however, the form need it to save the value, otherwise these fields will be "None"-->
+                        <input name="supplier_name" value="{{ project.supplier_name|default_if_none:'' }}" placeholder="supplier_name..." style="width: 100px; ">
+                        <input name="part_description" value="{{ project.part_description|default_if_none:'' }}" placeholder="part_description..." style="width: 100px; ">
+                        <input name="location" value="{{ project.location|default_if_none:'' }}" placeholder="location..." style="width: 1px; display: none;">
+                        <input name="received_date" value="{{ project.received_date|default_if_none:'' }}" placeholder="received_date..." style="width: 1px; display: none;">
+                    </div>
+                </div>
+                <!-- Second Card: Other inputs -->
+                <div class="card">
+                    <div class="card-body" style="background-color: #f5f6f7;">
+                        {% if project.part_number_official %}
+                            <h6 style="background-color: #A1DFDC;">
+                        {% else %}
+                            <h6 style="background-color: #F2B7AC;"> <!-- Set background color to red if part_number_official is None -->
+                                <a href="{% url 'input_pn_official' %}">Update description and PN</a>
+                        {% endif %}
+                            <span>{{ project.part_number_official|default_if_none:'' }}</span>
+                            <span style="font-size:12px">{{ project.part_name_official|default_if_none:'' }}</span>
+                        </h6>
+
+                        <hr>
+<!--                        <input name="project_documentation_check_result"-->
+<!--                               value="{{ project.project_documentation_check_result|default_if_none:'' }}"-->
+<!--                               placeholder="Documentation_check_result..." style="width: 1000px;">-->
+                        <label style="vertical-align: top;">Documentation:</label>
+                        <textarea name="project_documentation_check_result" placeholder="Documentation_check_result..."
+                                  style="width: 60%; height: 45px; vertical-align: top;">{{ project.project_documentation_check_result|default_if_none:'' }}
+                        </textarea>
+
+                        <label>OK...</label>
+                        <input type="checkbox" name="project_documentation_check_result_ok"
+                               style="transform: scale(1.5);"
+                               {% if project.project_documentation_check_result_ok %} checked {% endif %}
+                               value="True">
+                        <p></p>
+                        <b>GTIN: </b> <span style="background-color: #F0F3F5;">{{ project.part_gtin_number|default_if_none:'' }}</span>
+
+                        <!-- Display short content with a clickable link to show more -->
+                        <b style="margin-left: 50px;">Special test:</b>
+                        <span id="shortContent" style="background-color: #F0F3F5;">
+                          {{ project.part_special_test|default_if_none:''|truncatechars:90 }}
+                          {% if project.part_special_test|length > 90 %}
+                            <a href="javascript:void(0);" id="showMoreLink">>>></a>
+                          {% endif %}
+                        </span>
+
+                        <!-- Full content hidden initially -->
+                        <span id="fullContent" style="display: none; background-color: #F0F3F5;">
+                          {{ project.part_special_test|default_if_none:'' }}
+                          <a href="javascript:void(0);" id="showLessLink"><<<</a>
+                        </span>
+
+                        <p></p>
+                        <!--                        <input name="project_parts_inspection_result"-->
+                        <!--                               value="{{ project.project_parts_inspection_result|default_if_none:'' }}"-->
+                        <!--                               placeholder="Parts_inspection_result..." style="width: 1000px;height: 100px;">-->
+                        <label style="vertical-align: top;">Part-inspection:</label>
+                        <textarea name="project_parts_inspection_result" placeholder="Parts_inspection_result..."
+                                  style="width: 60%; height: 45px; vertical-align: top;">{{ project.project_parts_inspection_result|default_if_none:'' }}
+                        </textarea>
+                        <label>OK...</label>
+                        <input type="checkbox" name="project_parts_inspection_result_ok" style="transform: scale(1.5);"
+                               {% if project.project_parts_inspection_result_ok %} checked {% endif %}
+                               value="True">
+                        <br>
+                        <p></p>
+                        <a style="font-weight: bold;" href="https://etq.zimmerbiomet.com/reliance/reliance?ETQ$CMD=CMD_CANCEL_ALL_DOCUMENTS&ETQ$APPLICATION_NAME=NCMR&ETQ$SCREEN_WIDTH=1280" target="_blank">EtQ</a>
+                        <label style="margin-left: 50px;">NCR-</label>
+                        <input id="project_ncr_num" name="project_ncr_num"
+                               value="{{ project.project_ncr_num|default_if_none:'' }}" placeholder="number..."
+                               style="width: 100px;">
+                        <label style="margin-left: 50px;">Qty:</label>
+                        <input id="project_ncr_qty" name="project_ncr_qty"
+                               value="{{ project.project_ncr_qty|default_if_none:'' }}" placeholder="qty..."
+                               style="width: 50px;">
+
+                        <br>
+                        <p></p>
+                        <label>Label Checked...</label>
+                        <input type="checkbox" name="project_label_checked" style="transform: scale(1.5);"
+                               {% if project.project_label_checked %} checked {% endif %}
+                               value="True">
+
+
+                        <label  style="margin-left: 50px;">DHR reviewed...</label>
+                        <input type="checkbox" name="project_dhr_reviewed" style="transform: scale(1.5);"
+                               {% if project.project_dhr_reviewed %} checked {% endif %}
+                               value="True">
+
+                        <label style="margin-left: 50px;">Parts moved to PAC/NC...</label>
+                        <input type="checkbox" name="project_parts_moved_pac_nc" style="transform: scale(1.5);"
+                               {% if project.project_parts_moved_pac_nc %} checked {% endif %}
+                               value="True">
+
+                    </div>
+                </div>
+
+                <!-- 3rd Card: Other inputs -->
+                <div class="card">
+                    <div class="card-body" style="background-color: #f5f6f7;">
+                        {% if project.supplier_key_word %}
+                            <h6 style="background-color: #A1DFDC;">
+                        {% else %}
+                            <h6 style="background-color: #F2B7AC;"> <!-- Set background color to red if part_number_official is None -->
+                                <a href="{% url 'input_pn_official' %}">Update supplier keyword</a>
+                        {% endif %}
+                            <span>{{ project.supplier_key_word|default_if_none:'' }}</span>
+                        </h6>
+                        <hr>
+                        <p></p>
+                        <b>Contact: </b> <span style="background-color: #F0F3F5;">{{ project.supplier_contact_person|default_if_none:'' }}</span>
+<!--                        <b> E-mail: </b><span style="background-color: #F0F3F5;">{{ project.supplier_contact_email|default_if_none:'' }}</span>-->
+                        <!-- Display short content with a clickable link to show more for Email -->
+                        <b>Email:</b>
+                        <span id="shortEmailContent" style="background-color: #F0F3F5;">
+                          {{ project.supplier_contact_email|default_if_none:''|truncatechars:50 }}
+                          {% if project.supplier_contact_email|length > 50 %}
+                            <a href="javascript:void(0);" id="showMoreEmailLink">>>></a>
+                          {% endif %}
+                        </span>
+
+                        <!-- Full Email content hidden initially -->
+                        <span id="fullEmailContent" style="display: none; background-color: #F0F3F5;">
+                          {{ project.supplier_contact_email|default_if_none:'' }}
+                          <a href="javascript:void(0);" id="showLessEmailLink"><<<</a>
+                        </span>
+
+
+                        <b>DMR: </b>
+                        <span style="background-color: #F0F3F5;">
+                            {{ project.part_dmr|default_if_none:'' }}
+                        </span>
+
+<!--                        <button onclick="openNewTabWithData()">Open New Tab</button>-->
+
+
+                        <p></p>
+
+
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">Submit</button>
+                <a class="btn btn-info" href="{% url 'ongoing_project' %}">Close</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript to handle toggling content visibility -->
+<script>
+  var shortContent = document.getElementById('shortContent');
+  var fullContent = document.getElementById('fullContent');
+
+  document.getElementById('showMoreLink').addEventListener('click', function() {
+    shortContent.style.display = 'none';
+    fullContent.style.display = 'inline';
+  });
+
+  document.getElementById('showLessLink').addEventListener('click', function() {
+    shortContent.style.display = 'inline';
+    fullContent.style.display = 'none';
+  });
+</script>
+
+<!-- JavaScript to handle toggling Email content visibility -->
+<script>
+  var shortEmailContent = document.getElementById('shortEmailContent');
+  var fullEmailContent = document.getElementById('fullEmailContent');
+
+  document.getElementById('showMoreEmailLink').addEventListener('click', function() {
+    shortEmailContent.style.display = 'none';
+    fullEmailContent.style.display = 'inline';
+  });
+
+  document.getElementById('showLessEmailLink').addEventListener('click', function() {
+    shortEmailContent.style.display = 'inline';
+    fullEmailContent.style.display = 'none';
+  });
+</script>
+
+<!-- JavaScript function to copy text to clipboard -->
+<script>
+    function copyToClipboard(text) {
+        const el = document.createElement('textarea'); // Create a textarea element
+        el.value = text; // Set its value to the text you want to copy
+        el.setAttribute('readonly', ''); // Make it readonly to be focused without keyboard
+        el.style.position = 'absolute';
+        el.style.left = '-9999px'; // Move it off-screen
+        document.body.appendChild(el); // Append the textarea element to the document
+        const selected =
+            document.getSelection().rangeCount > 0 // Check if there is any content selected previously
+                ? document.getSelection().getRangeAt(0) // Store selection if found
+                : false;
+        el.select(); // Select the content inside the textarea
+        document.execCommand('copy'); // Copy text to clipboard
+        document.body.removeChild(el); // Remove the textarea element
+        if (selected) {
+            document.getSelection().removeAllRanges(); // If a selection existed before copying, restore it
+            document.getSelection().addRange(selected);
+        }
+
+        const copyTextElement = document.getElementById('copyText');
+        copyTextElement.textContent = 'Copied'; // Change the text to 'Copied'
+
+        setTimeout(function() {
+            copyTextElement.textContent = 'Copy'; // Reset text to 'Copy' after 2 seconds
+        }, 2000);
+    }
+</script>
+
+<!--open dmr in new tab-->
+<script>
+function openNewTabWithData() {
+    var partDmrValue = "{{ project.part_dmr|default_if_none:'' }}";
+    if (partDmrValue) {
+        var form = document.createElement("form");
+        form.method = "post";
+        form.action = "/your-destination-url/"; // Replace with your destination URL
+
+        var inputField = document.createElement("input");
+        inputField.type = "hidden";
+        inputField.name = "part_dmr_value"; // Replace with your desired parameter name
+        inputField.value = partDmrValue;
+        form.appendChild(inputField);
+
+        // Adding CSRF token to the form
+        var csrfToken = document.createElement("input");
+        csrfToken.type = "hidden";
+        csrfToken.name = "csrfmiddlewaretoken";
+        csrfToken.value = "{{ csrf_token }}";
+        form.appendChild(csrfToken);
+
+        document.body.appendChild(form);
+
+        form.target = "_blank";
+        form.submit();
+
+        document.body.removeChild(form);
+    }
+}
+</script>
+
+{% endblock content %}

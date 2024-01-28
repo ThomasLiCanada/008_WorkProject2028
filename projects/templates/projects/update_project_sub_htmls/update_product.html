@@ -1,0 +1,89 @@
+<!--reversion 0-->
+<!--<div class="container" id="input-product-form">-->
+<!--    <h5 style="background-color: #A1DFDC;">Product:</h5>-->
+<!--    <form method="post" enctype="multipart/form-data">{% csrf_token %}-->
+<!--        {{product_form}}-->
+<!--        <button type="submit" name="product_form_submit" id="submit-btn"> Save Product</button>-->
+<!--    </form>-->
+<!--</div>-->
+
+<!--reversion 1-->
+<!--webpage format adjustment as below------------------------------------------------------------------>
+<!--<div class="row" id="input-product-form">-->
+<!--    <div class="col">-->
+<!--        <div class="card">-->
+<!--            <div class="card-body" style="background-color: #f5f6f7;">-->
+<!--                <h5 style="background-color: #A1DFDC;">Product:</h5>-->
+<!--                <form method="post" enctype="multipart/form-data">{% csrf_token %}-->
+<!--                    <div class="row">-->
+<!--                        {% for field in product_form %}-->
+<!--                        <div class="col-md-6">-->
+<!--                            {{ field.label_tag }}-->
+<!--                            {{ field }}-->
+<!--                        </div>-->
+<!--                        {% endfor %}-->
+<!--                    </div>-->
+
+<!--                    <button type="submit" name="product_form_submit" id="submit-btn">Save Product</button>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--projects/update_project_sub_htmls/update_product.html-->
+<!--webpage format adjusted and locke the field "part number formal"------------------------------------------->
+<div class="row" id="input-product-form">
+    <div class="col">
+        <div class="card">
+            <div class="card-body" style="background-color: #f5f6f7;">
+                <h5 style="background-color: #A1DFDC;">Product:</h5>
+                <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                    <div class="row">
+                        {% for field in product_form %}
+                            <div class="col-md-6">
+                                {% if field.name != 'part_number_formal' %}
+                                    {{ field.label_tag }}<br>
+                                    {{ field }}<br>
+                                {% else %}
+                                    {{ field.label_tag }} <br>
+                                    <div style="display: none;">
+                                        {{ field }}
+                                    </div>
+                                    <div style="display: inline-block; border: 1px solid #ccc; background-color: #fff; width: 100%; height: 50px;display: flex;align-items: center;">
+                                        {{field.value}}
+                                    </div>
+                                    <p></p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <button type="submit" name="product_form_submit" id="submit-btn">Save Product</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--function: click a link to show "input product form", and jump to the beginning of this snippet-------------->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the hyperlink element
+        var showUpdateProductFormLink = document.getElementById('showUpdateProductForm');
+
+        // Add a click event listener to the hyperlink
+        showUpdateProductFormLink.addEventListener('click', function(event) {
+            event.preventDefault();  // Prevent the default behavior of the hyperlink
+
+        // Show/hide the container based on its current state
+        var updateProductContainer = document.getElementById('updateProductContainer');
+        updateProductContainer.style.display = (updateProductContainer.style.display === 'none') ? 'block' : 'none';
+
+        // Scroll to the beginning of the updateProductContainer
+        if (updateProductContainer.style.display === 'block') {
+            updateProductContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        });
+    });
+</script>

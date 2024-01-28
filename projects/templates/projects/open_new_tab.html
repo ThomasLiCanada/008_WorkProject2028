@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Open New Tab and Set Address Bar</title>
+</head>
+<body>
+  <button onclick="openNewTab()">Open New Tab</button>
+
+  <script>
+    function openNewTab() {
+      var newTab = window.open('about:blank', '_blank');
+      if (newTab) {
+        newTab.onload = function() {
+          newTab.location.href = 'https://translate.google.ca/?sl=en&tl=zh-CN&op=translate'; // Replace with the URL you want to navigate to
+          newTab.document.body.innerText = 'www.sina.com'; // Set the text 'abc' in the new tab
+        };
+      } else {
+        alert('Your browser blocked opening a new tab. Please allow pop-ups for this site.');
+      }
+    }
+  </script>
+</body>
+</html>

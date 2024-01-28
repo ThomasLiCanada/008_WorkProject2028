@@ -1,0 +1,23 @@
+<!--templates/projects/input_project.html--------------------------------------------------------------------->
+<title>Input project</title>
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-5" mx-auto>
+            <h5>Input project</h5>
+            <hr>
+            <div class="card card-body">
+                <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                    {{project_form}}
+                    <button type="submit" name="project_form_submit"> Save Project</button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+    {% endblock content %}

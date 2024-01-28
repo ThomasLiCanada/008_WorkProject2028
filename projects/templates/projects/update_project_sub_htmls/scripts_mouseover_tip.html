@@ -1,0 +1,27 @@
+<script>
+    function showTooltip() {
+        // Create a new element for the tooltip
+        var tooltip = document.createElement("div");
+        tooltip.innerHTML = "Edit Part /IP reversion";
+        tooltip.style.position = "absolute";
+        tooltip.style.backgroundColor = "#fff";
+        tooltip.style.color = "#333";
+        tooltip.style.padding = "5px";
+        tooltip.style.borderRadius = "5px";
+
+        // Get the position of the pencil icon
+        var iconPosition = document.getElementById("showUpdateSupplierProductForm").getBoundingClientRect();
+
+        // Set the position of the tooltip relative to the pencil icon
+        tooltip.style.left = (iconPosition.left + iconPosition.width) + "px";
+        tooltip.style.top = iconPosition.top + "px";
+
+        // Append the tooltip to the document body
+        document.body.appendChild(tooltip);
+
+        // Remove the tooltip after a certain time (e.g., 2 seconds)
+        setTimeout(function() {
+            tooltip.remove();
+        }, 2000);
+    }
+</script>

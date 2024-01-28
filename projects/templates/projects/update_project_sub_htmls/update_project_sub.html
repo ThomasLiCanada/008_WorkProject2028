@@ -1,0 +1,8 @@
+<div class="container" id="input-project-form">
+    <h5 style="background-color: #A1DFDC;">Project:</h5>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update</button>
+    </form>
+</div>
