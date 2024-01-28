@@ -1,0 +1,26 @@
+<!--templates/receivings/input_receiving.html--------------------------------------------------------------------->
+<title>Input</title>
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-5" mx-auto>
+            <P></P>
+            <h5>Input receiving product description --> part number</h5>
+            <hr>
+            <div class="card card-body">
+                <form method="post" enctype="multipart/form-data">{% csrf_token %}
+
+                    {{receiving_form}}
+
+                    <button type="submit" name="receiving_form_submit"> Save Receiving</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
