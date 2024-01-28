@@ -1,0 +1,27 @@
+<!--templates/products/input_product.html--------------------------------------------------------------------->
+<title>Input Produt</title>
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-5" mx-auto>
+            <P></P>
+            <h5>Input product</h5>
+            <hr>
+            <div class="card card-body">
+                <form method="post" enctype="multipart/form-data">{% csrf_token %}
+
+                    {{product_form}}
+
+                    <button type="submit" name="product_form_submit" id="submit-btn"> Save Product</button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
